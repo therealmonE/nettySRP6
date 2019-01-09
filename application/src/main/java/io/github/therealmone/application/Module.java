@@ -20,10 +20,10 @@ public class Module extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Runner.class).annotatedWith(Names.named("ClientRunner")).to(ClientRunner.class);
+        bind(Runnable.class).annotatedWith(Names.named("ClientRunner")).to(ClientRunner.class);
         bind(Client.class).to(ClientImpl.class);
 
-        bind(Runner.class).annotatedWith(Names.named("ServerRunner")).to(ServerRunner.class);
+        bind(Runnable.class).annotatedWith(Names.named("ServerRunner")).to(ServerRunner.class);
         bind(Server.class).to(ServerImpl.class);
 
         bind(Config.class).annotatedWith(Names.named("ClientConfig")).toInstance(config.getConfig("client"));

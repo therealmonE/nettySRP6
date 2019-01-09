@@ -6,10 +6,9 @@ import io.github.therealmone.server.Server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ServerRunner implements Runner {
+public class ServerRunner implements Runnable {
     private final static Logger logger = LogManager.getLogger(ServerRunner.class);
     private final Server server;
-    private boolean done = false;
 
     @Inject
     public ServerRunner(final Server server) {
@@ -30,15 +29,9 @@ public class ServerRunner implements Runner {
             server.registerNewUser();
             server.authenticate();
 
-            //server.shutDown();
-            done = true;
-
+            server.shutDown();
         } catch (Exception e) {
             logger.error("Server throws exception");
         }
-    }
-
-    public boolean isDone() {
-        return done;
     }
 }

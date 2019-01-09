@@ -5,10 +5,9 @@ import io.github.therealmone.client.Client;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ClientRunner implements Runner {
+public class ClientRunner implements Runnable {
     private final static Logger logger = LogManager.getLogger(ClientRunner.class);
     private final Client client;
-    private boolean done = false;
 
     @Inject
     public ClientRunner(final Client client) {
@@ -30,16 +29,9 @@ public class ClientRunner implements Runner {
             logger.info("Server message: {}", client.read(String.class));
             client.login("login", "password");
 
-            //client.shutDown();
-            done = true;
-
+            client.shutDown();
         } catch (Exception e) {
             logger.error("Client throws exception: {}", e);
         }
-    }
-
-    @Override
-    public boolean isDone() {
-        return done;
     }
 }
