@@ -121,7 +121,6 @@ public class ServerImpl implements Server {
         logger.info("Shutting down server...");
         if(future != null) {
             future.channel().disconnect();
-            future.channel().closeFuture().sync();
             future = null;
         }
 

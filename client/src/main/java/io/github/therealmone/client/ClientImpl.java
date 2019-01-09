@@ -87,7 +87,6 @@ public class ClientImpl implements Client {
         logger.info("Shutting down client...");
         if(future != null) {
             future.channel().disconnect();
-            future.channel().closeFuture().sync();
             future = null;
         }
 
