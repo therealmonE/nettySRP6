@@ -10,6 +10,7 @@ import io.github.therealmone.client.ClientImpl;
 import io.github.therealmone.model.functions.*;
 import io.github.therealmone.model.io.Handler;
 import io.github.therealmone.model.io.HandlerImpl;
+import io.github.therealmone.model.rsa.RSA;
 import io.github.therealmone.server.Server;
 import io.github.therealmone.server.ServerImpl;
 
@@ -64,6 +65,11 @@ public class Module extends AbstractModule {
     @Provides
     MonoHash provideMonoHash() {
         return bigInteger -> bigInteger;
+    }
+
+    @Provides
+    RSA provideRSA() {
+        return new RSA(config.getConfig("rsa"));
     }
 
     @Provides

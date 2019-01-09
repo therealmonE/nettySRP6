@@ -2,17 +2,25 @@ package io.github.therealmone.application;
 
 
 import com.google.inject.Inject;
+import io.github.therealmone.model.rsa.RSA;
 import io.github.therealmone.server.Server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigInteger;
+import java.util.Arrays;
+
 public class ServerRunner implements Runnable {
     private final static Logger logger = LogManager.getLogger(ServerRunner.class);
     private final Server server;
+    private final RSA rsa;
 
     @Inject
-    public ServerRunner(final Server server) {
+    public ServerRunner(
+            final Server server,
+            final RSA rsa) {
         this.server = server;
+        this.rsa = rsa;
     }
 
     @Override
@@ -28,6 +36,10 @@ public class ServerRunner implements Runnable {
 
             server.registerNewUser();
             server.authenticate();
+
+            final BigInteger[] encryptedMessage = server.read(BigInteger[].class);
+            logger.info("Decrypting message: {}", Arrays.toString(encryptedMessage));
+            logger.info("Message: {}", rsa.decode(encryptedMessage));
 
             server.shutDown();
         } catch (Exception e) {
