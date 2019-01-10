@@ -159,13 +159,13 @@ public class ServerImpl implements Server {
         final S _s = S.getInstance(cache.get(_i.value()).getSalt());
         final V _v = V.getInstance(cache.get(_i.value()).getPasswordVerifier());
         final B _b = B.getInstance(BigInteger.valueOf(random.nextInt(1_000_000 - 10_000) + 10_000));
-        final B _B = B.getInstance(k.value().multiply(_v.value()).add(g.value().pow(_b.value().intValue()).mod(n.value())).mod(n.value()));
+        final B _B = B.getInstance(k.value().multiply(_v.value()).add(g.value().modPow(_b.value(), n.value())).mod(n.value()));
         write(_s);
         write(_B);
         final U _u = U.getInstance(biHash.apply(_A.value(), _B.value()));
         assert _u.value().compareTo(BigInteger.valueOf(0)) != 0;
         final BigInteger sessionKey = monoHash.apply(
-                _A.value().multiply(_v.value().pow(_u.value().intValue()).mod(n.value())).pow(_b.value().intValue()).mod(n.value())
+                _A.value().multiply(_v.value().modPow(_u.value(), n.value())).pow(_b.value().intValue()).mod(n.value())
         );
         logger.info("Server session key for {} : {}", _i.value(), sessionKey);
         final M client_M = read(M.class);

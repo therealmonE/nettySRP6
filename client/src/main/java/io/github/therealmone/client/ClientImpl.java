@@ -105,7 +105,7 @@ public class ClientImpl implements Client {
     public void register(final String username, final String password) throws Exception {
         final S s = S.getInstance(randomString.get());
         final X x = X.getInstance(biHashStrings.apply(s.value(), password));
-        final V v = V.getInstance(g.value().pow(x.value().intValue()).mod(n.value()));
+        final V v = V.getInstance(g.value().modPow(x.value(), n.value()));
         write(I.getInstance(username));
         write(s);
         write(v);
@@ -134,7 +134,7 @@ public class ClientImpl implements Client {
     public void login(final String username, final String password) throws Exception {
         final I _i = I.getInstance(username);
         final A _a = A.getInstance(BigInteger.valueOf(random.nextInt(1_000_000 - 10_000) + 10_000));
-        final A _A = A.getInstance(g.value().pow(_a.value().intValue()).mod(n.value()));
+        final A _A = A.getInstance(g.value().modPow(_a.value(), n.value()));
         write(_i);
         write(_A);
         final S _s = read(S.class);
@@ -145,9 +145,8 @@ public class ClientImpl implements Client {
         final X _x = X.getInstance(biHashStrings.apply(_s.value(), password));
         final BigInteger sessionKey =
                 monoHash.apply(
-                        _B.value().subtract(k.value().multiply(g.value().pow(_x.value().intValue()).mod(n.value()))).pow(
-                                _a.value().add(_u.value().multiply(_x.value())).intValue()
-                        ).mod(n.value())
+                        _B.value().subtract(k.value().multiply(g.value().modPow(_x.value(), n.value()))).modPow(
+                                _a.value().add(_u.value().multiply(_x.value())), n.value())
                 );
         logger.info("Client session key: {}", sessionKey);
         final M _m = M.getInstance(mHash.apply(
