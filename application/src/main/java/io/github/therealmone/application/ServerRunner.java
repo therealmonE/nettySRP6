@@ -37,13 +37,16 @@ public class ServerRunner implements Runnable {
             server.registerNewUser();
             server.authenticate();
 
+            logger.info("Sending open key [{}, {}], ", rsa.getOpenKey().getN(), rsa.getOpenKey().getE());
+            server.write(rsa.getOpenKey());
+
             final BigInteger[] encryptedMessage = server.read(BigInteger[].class);
             logger.info("Decrypting message: {}", Arrays.toString(encryptedMessage));
-            logger.info("Message: {}", rsa.decode(encryptedMessage));
+            logger.info("Message: '{}'", rsa.decode(encryptedMessage));
 
             server.shutDown();
         } catch (Exception e) {
-            logger.error("Server throws exception");
+            logger.error("Server throws exception: {}", e);
         }
     }
 }

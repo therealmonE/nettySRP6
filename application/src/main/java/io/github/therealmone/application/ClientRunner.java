@@ -2,6 +2,7 @@ package io.github.therealmone.application;
 
 import com.google.inject.Inject;
 import io.github.therealmone.client.Client;
+import io.github.therealmone.model.rsa.OpenKey;
 import io.github.therealmone.model.rsa.RSA;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,9 +38,10 @@ public class ClientRunner implements Runnable {
             logger.info("Server message: {}", client.read(String.class));
             client.login("login", "password");
 
+            final OpenKey serverKey = client.read(OpenKey.class);
             final String message = "RSA message";
-            logger.info("Encrypting message: {}", message);
-            final BigInteger[] encryptedMessage = rsa.encode(message);
+            logger.info("Encrypting message: '{}' with key: [{}, {}]", message, serverKey.getN(), serverKey.getE());
+            final BigInteger[] encryptedMessage = rsa.encode(serverKey, message);
             logger.info(Arrays.toString(encryptedMessage));
             client.write(encryptedMessage);
 
