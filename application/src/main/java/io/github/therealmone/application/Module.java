@@ -15,6 +15,7 @@ import io.github.therealmone.server.Server;
 import io.github.therealmone.server.ServerImpl;
 
 import java.math.BigInteger;
+import java.util.UUID;
 
 public class Module extends AbstractModule {
     private final Config config = ConfigFactory.parseResources("config.conf").resolve();
@@ -39,7 +40,7 @@ public class Module extends AbstractModule {
 
     @Provides
     RandomString provideRandomString() {
-        return () -> "salt";
+        return () -> UUID.randomUUID().toString();
     }
 
     @Provides
