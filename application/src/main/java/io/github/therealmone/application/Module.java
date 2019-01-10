@@ -30,7 +30,7 @@ public class Module extends AbstractModule {
 
         bind(Config.class).annotatedWith(Names.named("ClientConfig")).toInstance(config.getConfig("client"));
         bind(Config.class).annotatedWith(Names.named("ServerConfig")).toInstance(config.getConfig("server"));
-        bind(Config.class).annotatedWith(Names.named("SecFieldConfig")).toInstance(config.getConfig("secField"));
+        bind(Config.class).annotatedWith(Names.named("SRPConfig")).toInstance(config.getConfig("srp"));
     }
 
     @Provides

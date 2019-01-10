@@ -45,7 +45,7 @@ public class ServerImpl implements Server {
     @Inject
     public ServerImpl(
             @Named("ServerConfig") final Config config,
-            @Named("SecFieldConfig") final Config secFieldConfig,
+            @Named("SRPConfig") final Config secFieldConfig,
             final BiHash biHash,
             final MonoHash monoHash,
             final Handler serverHandler,

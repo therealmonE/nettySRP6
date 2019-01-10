@@ -43,7 +43,7 @@ public class ClientImpl implements Client {
     @Inject
     public ClientImpl(
             @Named("ClientConfig") final Config config,
-            @Named("SecFieldConfig") final Config secFieldConfig,
+            @Named("SRPConfig") final Config secFieldConfig,
             final Handler clientHandler,
             final BiHashStrings biHashStrings,
             final RandomString randomString,
